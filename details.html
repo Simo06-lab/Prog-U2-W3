@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dettagli Gioco</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background-color: #0d0d0d;
+        color: #e6e6e6;
+      }
+
+      .details-card {
+        background-color: #1a1a1f;
+        border: 1px solid #14ffec;
+        padding: 20px;
+        border-radius: 10px;
+      }
+
+      .details-title {
+        color: #9ef01a;
+        font-weight: bold;
+      }
+
+      .details-price {
+        color: #14ffec;
+        font-size: 2rem;
+        font-weight: bold;
+      }
+
+      .details-brand {
+        color: #9a9a9a;
+      }
+
+      .btn-custom {
+        background-color: #9ef01a;
+        border-color: #9ef01a;
+        color: #0d0d0d;
+      }
+
+      .btn-custom:hover {
+        background-color: #14ffec;
+        border-color: #14ffec;
+        color: #0d0d0d;
+      }
+
+      img {
+        border-radius: 10px;
+        border: 2px solid #14ffec;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-dark"
+      style="background-color: #1a1a1f; border-bottom: 2px solid #14ffec"
+    >
+      <div class="container">
+        <span class="navbar-brand" style="color: #9ef01a">GameStore</span>
+        <a href="./index.html" class="btn btn-custom"> Torna al Negozio</a>
+      </div>
+    </nav>
+
+    <main class="container py-5">
+      <div
+        id="details-container"
+        class="row justify-content-center mt-5 align-self-center"
+      ></div>
+    </main>
+
+    <script>
+      const API_URL = "https://striveschool-api.herokuapp.com/api/product/";
+      const TOKEN =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWUxZTU5YTczOWY4NzAwMTU3YWIwOGEiLCJpYXQiOjE3NzY0MTIwNTgsImV4cCI6MTc3NzYyMTY1OH0.rgoeDRLd8J9zMxcRNmWfnbGkIh5_m8WaPhWgdcRSfJo";
+
+      const params = new URLSearchParams(window.location.search);
+      const gameId = params.get("id");
+
+      const loadDetails = function () {
+        fetch(API_URL + gameId, {
+          headers: { Authorization: TOKEN },
+        })
+          .then((res) => res.json())
+          .then((game) => {
+            const container = document.getElementById("details-container");
+
+            container.innerHTML = `
+              <div class="col-12 col-lg-10">
+                <div class="details-card row g-4">
+                  
+                  <div class="col-12 col-md-5">
+                    <img src="${game.imageUrl}" class="img-fluid" alt="${game.name}">
+                  </div>
+
+                  <div class="col-12 col-md-7">
+                    <h2 class="details-title">${game.name}</h2>
+                    <p class="details-brand">Sviluppatore: ${game.brand}</p>
+                    <p>${game.description}</p>
+
+                    <p class="details-price">€${game.price}</p>
+
+                    <div class="d-flex gap-3 mt-4">
+                      <a href="./index.html" class="btn btn-custom"> Torna al Negozio</a>
+                      
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            `;
+          })
+          .catch((err) => console.log("ERRORE DETTAGLI", err));
+      };
+
+      loadDetails();
+    </script>
+  </body>
+</html>
