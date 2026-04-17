@@ -127,7 +127,7 @@
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWUxZTU5YTczOWY4NzAwMTU3YWIwOGEiLCJpYXQiOjE3NzY0MTIwNTgsImV4cCI6MTc3NzYyMTY1OH0.rgoeDRLd8J9zMxcRNmWfnbGkIh5_m8WaPhWgdcRSfJo";
       const getGames = function () {
         const spinner = document.getElementById("loading-spinner");
-        spinner.style.display = "inline-block"; // Mostra lo spinner
+        spinner.style.display = "inline-block";
 
         fetch(API_URL, {
           headers: {
@@ -174,7 +174,7 @@
             console.log("ERRORE NEL RECUPERO GIOCHI", error);
           })
           .finally(() => {
-            spinner.style.display = "none"; // Nasconde lo spinner
+            spinner.style.display = "none";
           });
       };
 
