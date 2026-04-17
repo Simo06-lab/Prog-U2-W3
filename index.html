@@ -106,7 +106,16 @@
     </nav>
 
     <main class="container py-4">
-      <h2 class="mb-4 text-white">Catalogo Videogiochi</h2>
+      <h2 class="mb-4 text-white d-flex align-items-center gap-2">
+        Catalogo Videogiochi
+        <div
+          id="loading-spinner"
+          class="spinner-border text-warning"
+          role="status"
+          style="width: 1.2rem; height: 1.2rem; display: none"
+        ></div>
+      </h2>
+
       <div id="products-container" class="row g-4"></div>
     </main>
 
@@ -117,6 +126,9 @@
       const TOKEN =
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWUxZTU5YTczOWY4NzAwMTU3YWIwOGEiLCJpYXQiOjE3NzY0MTIwNTgsImV4cCI6MTc3NzYyMTY1OH0.rgoeDRLd8J9zMxcRNmWfnbGkIh5_m8WaPhWgdcRSfJo";
       const getGames = function () {
+        const spinner = document.getElementById("loading-spinner");
+        spinner.style.display = "inline-block"; // Mostra lo spinner
+
         fetch(API_URL, {
           headers: {
             Authorization: TOKEN,
@@ -138,29 +150,31 @@
               newCol.classList.add("col-12", "col-md-6", "col-lg-4");
 
               newCol.innerHTML = `
-                <div class="card game-card h-100">
-                  <img src="${game.imageUrl}" class="card-img-top" alt="${game.name}">
-                  <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">${game.name}</h5>
-                    <p class="brand">${game.brand}</p>
-                    <p class="card-text flex-grow-1">${game.description}</p>
-                    <div class="mt-auto">
-  <p class="price mb-2">€${game.price}</p>
-  <a href="./details.html?id=${game._id}" class="btn btn-warning w-100">VEDI DETTAGLI</a>
-  <a class="btn btn-success w-100 mt-2 buy-btn" data-id="${game._id}" data-name="${game.name}" data-price="${game.price}">
-    COMPRA
-  </a>
-</div>
-
-                  </div>
-                </div>
-              `;
+          <div class="card game-card h-100">
+            <img src="${game.imageUrl}" class="card-img-top" alt="${game.name}">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">${game.name}</h5>
+              <p class="brand">${game.brand}</p>
+              <p class="card-text flex-grow-1">${game.description}</p>
+              <div class="mt-auto">
+                <p class="price mb-2">€${game.price}</p>
+                <a href="./details.html?id=${game._id}" class="btn btn-warning w-100">VEDI DETTAGLI</a>
+                <a class="btn btn-success w-100 mt-2 buy-btn" data-id="${game._id}" data-name="${game.name}" data-price="${game.price}">
+                  COMPRA
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
 
               container.appendChild(newCol);
             });
           })
           .catch((error) => {
             console.log("ERRORE NEL RECUPERO GIOCHI", error);
+          })
+          .finally(() => {
+            spinner.style.display = "none"; // Nasconde lo spinner
           });
       };
 
